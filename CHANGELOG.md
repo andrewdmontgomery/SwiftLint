@@ -26,6 +26,12 @@
 * Trigger `prefer_self_in_static_references` rule on more type references.
   [SimplyDanny](https://github.com/SimplyDanny)
 
+* Stop enforcing calls to super from the override functions `setUp()`,
+  `tearDown()`, `setUpWithError()`, and `tearDownWithError()` in `XCTestCase`
+  subclasses.
+  [AndrewDMontgomery](https://github.com/andrewdmontgomery)
+  [#4875](https://github.com/realm/SwiftLint/pull/4875)
+
 #### Bug Fixes
 
 * Fix `lower_acl_than_parent` rule rewriter by preserving leading whitespace.  
