@@ -28,7 +28,7 @@
 
 * Stop enforcing calls to super from the override functions `setUp()`,
   `tearDown()`, `setUpWithError()`, and `tearDownWithError()` in `XCTestCase`
-  subclasses.
+  subclasses.  
   [AndrewDMontgomery](https://github.com/andrewdmontgomery)
   [#4875](https://github.com/realm/SwiftLint/pull/4875)
 
