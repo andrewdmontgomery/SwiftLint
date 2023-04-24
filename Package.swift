@@ -1,26 +1,6 @@
 // swift-tools-version:5.7
 import PackageDescription
 
-#if os(macOS)
-private let addCryptoSwift = false
-private let binaryPlugin = true
-#else
-private let addCryptoSwift = true
-private let binaryPlugin = false
-#endif
-
-let frameworkDependencies: [Target.Dependency] = [
-    .product(name: "IDEUtils", package: "swift-syntax"),
-    .product(name: "SourceKittenFramework", package: "SourceKitten"),
-    .product(name: "SwiftSyntax", package: "swift-syntax"),
-    .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
-    .product(name: "SwiftParser", package: "swift-syntax"),
-    .product(name: "SwiftOperators", package: "swift-syntax"),
-    "SwiftyTextTable",
-    "Yams",
-]
-+ (addCryptoSwift ? ["CryptoSwift"] : [])
-
 let package = Package(
     name: "SwiftLint",
     platforms: [.macOS(.v12)],
@@ -31,18 +11,20 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git", .upToNextMinor(from: "1.2.1")),
-        .package(url: "https://github.com/apple/swift-syntax.git", exact: "509.0.0-swift-DEVELOPMENT-SNAPSHOT-2023-03-17-a"),
+        .package(url: "https://github.com/apple/swift-syntax.git", exact: "509.0.0-swift-5.9-DEVELOPMENT-SNAPSHOT-2023-04-10-a"),
         .package(url: "https://github.com/jpsim/SourceKitten.git", .upToNextMinor(from: "0.34.1")),
         .package(url: "https://github.com/jpsim/Yams.git", from: "5.0.5"),
         .package(url: "https://github.com/scottrhoyt/SwiftyTextTable.git", from: "0.9.0"),
-        .package(url: "https://github.com/JohnSundell/CollectionConcurrencyKit.git", from: "0.2.0")
-    ] + (addCryptoSwift ? [.package(url: "https://github.com/krzyzanowskim/CryptoSwift.git", .upToNextMinor(from: "1.6.0"))] : []),
+        .package(url: "https://github.com/JohnSundell/CollectionConcurrencyKit.git", from: "0.2.0"),
+        .package(url: "https://github.com/krzyzanowskim/CryptoSwift.git", .upToNextMinor(from: "1.7.0"))
+    ],
     targets: [
         .plugin(
             name: "SwiftLintPlugin",
             capability: .buildTool(),
             dependencies: [
-                .target(name: binaryPlugin ? "SwiftLintBinary" : "swiftlint")
+                .target(name: "SwiftLintBinary", condition: .when(platforms: [.macOS])),
+                .target(name: "swiftlint", condition: .when(platforms: [.linux]))
             ]
         ),
         .executableTarget(
@@ -62,7 +44,17 @@ let package = Package(
         ),
         .target(
             name: "SwiftLintFramework",
-            dependencies: frameworkDependencies
+            dependencies: [
+                .product(name: "IDEUtils", package: "swift-syntax"),
+                .product(name: "SourceKittenFramework", package: "SourceKitten"),
+                .product(name: "SwiftSyntax", package: "swift-syntax"),
+                .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
+                .product(name: "SwiftParser", package: "swift-syntax"),
+                .product(name: "SwiftOperators", package: "swift-syntax"),
+                "SwiftyTextTable",
+                "Yams",
+                .product(name: "CryptoSwift", package: "CryptoSwift", condition: .when(platforms: [.linux]))
+            ]
         ),
         .target(
             name: "SwiftLintTestHelpers",

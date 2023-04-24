@@ -26,6 +26,16 @@
 * Trigger `prefer_self_in_static_references` rule on more type references.
   [SimplyDanny](https://github.com/SimplyDanny)
 
+* Adds a new `reporters` subcommand, to improve discoverability of
+  reporters.  
+  [Martin Redington](https://github.com/mildm8nnered)
+  [#4819](https://github.com/realm/SwiftLint/issues/4819)
+
+* Adds `test_parent_classes` option to the `no_magic_numbers` rule.
+  Violations within test classes will now be ignored by default.  
+  [Martin Redington](https://github.com/mildm8nnered)
+  [#4896](https://github.com/realm/SwiftLint/issues/4896)
+
 * Stop enforcing calls to super from the override functions `setUp()`,
   `tearDown()`, `setUpWithError()`, and `tearDownWithError()` in `XCTestCase`
   subclasses.  
@@ -38,8 +48,17 @@
   [SimplyDanny](https://github.com/SimplyDanny)
   [#4860](https://github.com/realm/SwiftLint/issues/4860)
 
+* Ignore block comments in `let_var_whitespace` rule.  
+  [SimplyDanny](https://github.com/SimplyDanny)
+  [#4871](https://github.com/realm/SwiftLint/issues/4871)
+
 * Fix false positives in `indentation_width` rule.  
   [Sven Münnich](https://github.com/svenmuennich)
+
+* Do not trigger `reduce_boolean` on `reduce` methods with a first named
+  argument that is different from `into`.  
+  [SimplyDanny](https://github.com/SimplyDanny)
+  [#4894](https://github.com/realm/SwiftLint/issues/4894)
 
 ## 0.51.0: bzllint
 
@@ -157,11 +176,6 @@
 * Adds a new `summary` reporter, that displays the number of violations
   of each rule in a text table.  
   [Martin Redington](https://github.com/mildm8nnered)
-
-* Adds a new `reporters` subcommand, to improve discoverability of
-  reporters.  
-  [Martin Redington](https://github.com/mildm8nnered)
-  [#4819](https://github.com/realm/SwiftLint/issues/4819)
 
 #### Bug Fixes
 
